@@ -1,5 +1,5 @@
 from asyncio import PriorityQueue
-import select
+import selectors
 import threading
 import multiprocessing
 
@@ -10,10 +10,20 @@ import multiprocessing
 # table_lock = threading.Lock()
 
 
+"""
+Because the function is called from a process, it is a good idea to be separated in a different module than main
+"""
+
+
 def fill_table_chunk(start_row, end_row, table_chunk, thread_num):
     for i in range(len(table_chunk)):
         for j in range(len(table_chunk[0])):
             table_chunk[i][j] = thread_num
+
+
+"""
+Deprecated
+"""
 
 
 # Shared table and lock
@@ -35,7 +45,7 @@ def fill_table_thread(table, thread_id, num_rows, num_cols, n):
         for col in range(num_cols):
             if row < num_rows:
                 table[row][col] = thread_id
-    #conn.sendall(json.dumps({"thread": thread_num, "status": "finished"}).encode())
+    # conn.sendall(json.dumps({"thread": thread_num, "status": "finished"}).encode())
 
 
 # table = list()
